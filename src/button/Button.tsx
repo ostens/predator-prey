@@ -2,10 +2,11 @@ import React from "react";
 import "./Button.scss";
 
 type ButtonProps = {
+  onClick: React.MouseEventHandler
 };
 
-const component: React.FunctionComponent<ButtonProps> = ({ }: ButtonProps) => {
-  return <button className="button" onClick={() => { }}>Tick</button>; //dispatch tick action
+const Button: React.FunctionComponent<ButtonProps> = ({ onClick }) => {
+  return <button className="button" onClick={onClick}>Tick</button>;
 }
 
-export default component;
+export default Button;

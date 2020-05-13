@@ -1,13 +1,12 @@
 import React from 'react';
-import './App.css';
 import World from "../world/World";
-import Button from "../button/Button";
+import ButtonContainer from "../button/ButtonContainer";
 
 function App() {
   return (
     <div>
       <World />
-      <Button />
+      <ButtonContainer />
     </div>
   );
 }
