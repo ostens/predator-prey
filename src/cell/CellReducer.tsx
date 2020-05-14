@@ -1,7 +1,7 @@
-import {setCellAction} from "../world/WorldReducer";
 import {RootActions} from "../root/RootReducer";
 import {Coordinate} from "../types/Coordinate";
 import {Surroundings} from "../types/Surroundings";
+import {setCellAction} from "../world/WorldActions";
 
 export type CellState = "ALIVE" | "DEAD";
 export type CellSurroundings = Partial<Surroundings<CellState>>;

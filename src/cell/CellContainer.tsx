@@ -1,9 +1,10 @@
 import React from "react";
-import {selectCellState, useWorldSelector, WorldState} from "../world/WorldReducer";
+import {WorldState} from "../world/WorldReducer";
 import {cellConfigs} from "./CellReducer";
 import Cell from "./Cell";
 import {useAppDispatch} from "../root/RootStore";
 import {Coordinate} from "../types/Coordinate";
+import {selectCellState, useWorldSelector} from "../world/WorldSelectors";
 
 export type CellContainerProps = {
     coord: Coordinate;
