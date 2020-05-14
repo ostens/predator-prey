@@ -1,16 +1,16 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 
 import Button from "./Button";
 import { tickAction } from "../world/WorldReducer";
+import {useAppDispatch} from "../root/RootStore";
 
 export type ButtonContainerProps = {
 }
 
 const ButtonContainer: React.FunctionComponent<ButtonContainerProps> = (ButtonContainerProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  return <Button onClick={() => dispatch(tickAction)} />;
+  return <Button onClick={() => dispatch(tickAction())} />;
 }
 
 export default ButtonContainer;
