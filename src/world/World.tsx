@@ -1,7 +1,5 @@
 import React, {CSSProperties, FunctionComponent} from "react";
-import { RootState } from "../root/RootReducer";
-import { useSelector } from "react-redux";
-import {Coordinate, X, Y} from "./WorldReducer";
+import {Coordinate, useWorldSelector, WorldState, X, Y} from "./WorldReducer";
 import CellContainer from "../cell/CellContainer";
 import "./World.scss";
 
@@ -10,8 +8,8 @@ type WorldProps = {
 };
 
 const World: FunctionComponent<WorldProps> = (props: WorldProps) => {
-  const [xMin, xMax] = useSelector((rootState: RootState) => rootState.world.xRange);
-  const [yMin, yMax] = useSelector((rootState: RootState) => rootState.world.yRange);
+  const [xMin, xMax] = useWorldSelector((state: WorldState) => state.xRange);
+  const [yMin, yMax] = useWorldSelector((state: WorldState) => state.yRange);
 
   const coords: Array<Coordinate> = [];
   for(let x = xMin; x < xMax; x++) {

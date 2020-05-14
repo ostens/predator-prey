@@ -1,8 +1,12 @@
+import {combineReducers} from "@reduxjs/toolkit";
+import {worldReducer} from "../world/WorldReducer";
+import {Reducer} from "react";
 
-import { combineReducers } from "@reduxjs/toolkit";
-import { worldReducer } from "../world/WorldReducer";
+type ReducerActions<T extends Reducer<any, any>> = Parameters<T>[1];
 
-export const rootReducer = combineReducers({
-  world: worldReducer
-});
-export type RootState = ReturnType<typeof rootReducer>;
+export type RootState = {
+    world: ReturnType<typeof worldReducer>;
+};
+export type RootActions = ReducerActions<typeof worldReducer>;
+
+export const rootReducer = combineReducers<RootState, RootActions>({world: worldReducer});

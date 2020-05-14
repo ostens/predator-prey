@@ -1,4 +1,5 @@
-import { CellProps } from "./Cell";
+import {Coordinate, setCellAction} from "../world/WorldReducer";
+import {RootActions} from "../root/RootReducer";
 
 export type CellState = "ALIVE" | "DEAD";
 
@@ -13,8 +14,10 @@ export type Surroundings<T> = {
     bottomRight: T;
 };
 export type CellSurroundings = Partial<Surroundings<CellState>>;
-export type CellConfig = CellProps & {
-  tick: (surroundings: CellSurroundings) => CellState
+export type CellConfig = {
+    color: string;
+    tick: (surroundings: CellSurroundings) => CellState;
+    getClickAction: (coordinate: Coordinate) => RootActions;
 }
 
 export type AllConfigs = Record<CellState, CellConfig>;
@@ -22,26 +25,28 @@ export type AllConfigs = Record<CellState, CellConfig>;
 export const cellConfigs: AllConfigs = {
     "ALIVE": {
         color: "white",
+        getClickAction: (coord: Coordinate) => setCellAction({coord, newCellState: "DEAD"}),
         tick: (s: CellSurroundings) => {
-          const alivecount = Object.values(s).filter(state => state === "ALIVE").length;
-          if (alivecount > 3 ) {
-            return "DEAD";
-          } else if (alivecount < 2 ) {
-            return "DEAD";
-          } else {
-            return "ALIVE";
-          }
+            const aliveCount = Object.values(s).filter(state => state === "ALIVE").length;
+            if (aliveCount > 3) {
+                return "DEAD";
+            } else if (aliveCount < 2) {
+                return "DEAD";
+            } else {
+                return "ALIVE";
+            }
         }
     },
     "DEAD": {
         color: "black",
+        getClickAction: (coord: Coordinate) => setCellAction({coord, newCellState: "ALIVE"}),
         tick: (s: CellSurroundings) => {
-          const alivecount = Object.values(s).filter(state => state === "ALIVE").length;
-          if (alivecount === 3 ) {
-            return "ALIVE";
-          } else {
-            return "DEAD";
-          }
+            const aliveCount = Object.values(s).filter(state => state === "ALIVE").length;
+            if (aliveCount === 3) {
+                return "ALIVE";
+            } else {
+                return "DEAD";
+            }
         }
     }
 }

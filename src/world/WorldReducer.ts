@@ -1,10 +1,13 @@
 import {CellState, cellConfigs, Surroundings, CellSurroundings} from "../cell/CellReducer";
 import {createReducer, createAction} from "@reduxjs/toolkit";
+import {Reducer} from "react";
+import {RootState} from "../root/RootReducer";
+import {useSelector} from "react-redux";
 
-export type Coordinate = {
+export type Coordinate = Readonly<{
     x: X;
     y: Y;
-}
+}>;
 
 export type X = number & { _brand: "X_COORD" };
 export type Y = number & { _brand: "Y_COORD" };
@@ -17,13 +20,17 @@ type Cell = {
     state: CellState;
 };
 type Cells = Record<number, Record<number, Cell>>;
-type WorldState = {
+export type WorldState = {
     cells: Cells,
     xRange: Xrange,
     yRange: Yrange
 }
 
-export function selectCellState(cells: Cells, {x, y}: Coordinate): CellState | undefined {
+export function selectCellState(state: WorldState, coord: Coordinate): CellState | undefined {
+    return selectCellStateInternal(state.cells, coord);
+}
+
+function selectCellStateInternal(cells: Cells, {x, y}: Coordinate): CellState | undefined {
     const column = cells[x];
     if (column === undefined) return undefined;
     const cell = column[y];
@@ -62,7 +69,7 @@ export function selectSurroundings<C extends Cell>(state: WorldState, cell: C): 
     Object.entries(offsets).forEach(([key, offset]) => {
         const coordinate = applyOffset(cell.coord, offset);
         if (withinBounds(state, coordinate)) {
-            surroundings[key as keyof typeof offsets] = selectCellState(state.cells, coordinate)
+            surroundings[key as keyof typeof offsets] = selectCellStateInternal(state.cells, coordinate)
         }
     });
     return surroundings;
@@ -98,11 +105,15 @@ const initState: WorldState = {
 
 export const tickAction = createAction("tick");
 export const randomiseAction = createAction("randomise");
+export const setCellAction = createAction<{ coord: Coordinate, newCellState: CellState }, "setCell">("setCell");
 
-export const worldReducer = createReducer(initState, {
-    [tickAction.type]: tick,
-    [randomiseAction.type]: randomise
-});
+const actions = [tickAction, randomiseAction, setCellAction];
+export const worldReducer: Reducer<WorldState | undefined, ReturnType<(typeof actions)[number]>> = createReducer(initState, builder =>
+    builder
+        .addCase(tickAction, tick)
+        .addCase(randomiseAction, randomise)
+        .addCase(setCellAction, setCell)
+);
 
 function tick(state: WorldState): WorldState {
     const cells = initCells(state.xRange);
@@ -122,4 +133,31 @@ function tick(state: WorldState): WorldState {
 function randomise(state: WorldState): WorldState {
     const cells = randomCells(state.xRange, state.yRange);
     return {...state, cells};
+}
+
+function setCell(state: WorldState, {payload}: ReturnType<typeof setCellAction>): WorldState {
+    const {x, y} = payload.coord;
+    return {
+        ...state,
+        cells: {
+            ...state.cells,
+            [x]: {
+                ...state.cells[x],
+                [y]: {
+                    ...state.cells[x][y],
+                    state: payload.newCellState
+                }
+            }
+        }
+    };
+}
+
+export function useWorldSelector<TSelected = unknown>(
+    selector: (state: WorldState) => TSelected,
+    equalityFn?: (left: TSelected, right: TSelected) => boolean
+): TSelected {
+    return useSelector((state: RootState) => {
+        const worldState = state.world as WorldState;
+        return selector(worldState);
+    }, equalityFn);
 }

@@ -1,20 +1,20 @@
 import React from "react";
-import {Coordinate, selectCellState} from "../world/WorldReducer";
-import {useSelector} from "react-redux";
-import {RootState} from "../root/RootReducer";
+import {Coordinate, selectCellState, useWorldSelector, WorldState} from "../world/WorldReducer";
 import {cellConfigs} from "./CellReducer";
 import Cell from "./Cell";
+import {useAppDispatch} from "../root/RootStore";
 
 export type CellContainerProps = {
-    coord: Coordinate
+    coord: Coordinate;
 }
 
 const CellContainer: React.FunctionComponent<CellContainerProps> = ({coord}: CellContainerProps) => {
-    const cellState = useSelector((rootState: RootState) => selectCellState(rootState.world.cells, coord));
+    const dispatch = useAppDispatch();
+    const cellState = useWorldSelector((state: WorldState) => selectCellState(state, coord));
     if(cellState === undefined) return null;
 
     const props = cellConfigs[cellState];
-    return <Cell color={props.color} />
+    return <Cell color={props.color} onClick={() => dispatch(props.getClickAction(coord))} />
 }
 
 export default CellContainer;
