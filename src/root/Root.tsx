@@ -1,14 +1,11 @@
-import React from 'react';
+import React, {FunctionComponent} from 'react';
 import World from "../world/World";
 import ButtonContainer from "../button/ButtonContainer";
 
-function App() {
-  return (
+const Root: FunctionComponent = () =>
     <div>
-      <World />
-      <ButtonContainer />
-    </div>
-  );
-}
+        <World/>
+        <ButtonContainer/>
+    </div>;
 
-export default App;
+export default Root;

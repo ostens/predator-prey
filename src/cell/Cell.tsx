@@ -1,13 +1,13 @@
-import React from "react";
+import React, {FunctionComponent} from "react";
 
 export type CellProps = {
     color: string
 }
 
-const cell: React.FunctionComponent<CellProps> = ({color}: CellProps) => {
+const Cell: FunctionComponent<CellProps> = ({color}: CellProps) => {
     return <div>
         {color}
     </div>
 }
 
-export default cell;
+export default Cell;

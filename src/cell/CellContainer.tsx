@@ -9,7 +9,7 @@ export type CellContainerProps = {
     coord: Coordinate
 }
 
-const cellContainer: React.FunctionComponent<CellContainerProps> = ({coord}: CellContainerProps) => {
+const CellContainer: React.FunctionComponent<CellContainerProps> = ({coord}: CellContainerProps) => {
     const cellState = useSelector((rootState: RootState) => selectCellState(rootState.world.cells, coord));
     if(cellState === undefined) return null;
 
@@ -17,4 +17,4 @@ const cellContainer: React.FunctionComponent<CellContainerProps> = ({coord}: Cel
     return <Cell color={props.color} />
 }
 
-export default cellContainer;
+export default CellContainer;
