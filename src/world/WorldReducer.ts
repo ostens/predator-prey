@@ -1,16 +1,10 @@
-import {CellState, cellConfigs, Surroundings, CellSurroundings} from "../cell/CellReducer";
+import {CellState, cellConfigs, CellSurroundings} from "../cell/CellReducer";
 import {createReducer, createAction} from "@reduxjs/toolkit";
 import {Reducer} from "react";
 import {RootState} from "../root/RootReducer";
 import {useSelector} from "react-redux";
-
-export type Coordinate = Readonly<{
-    x: X;
-    y: Y;
-}>;
-
-export type X = number & { _brand: "X_COORD" };
-export type Y = number & { _brand: "Y_COORD" };
+import {Coordinate, X, Y} from "../types/Coordinate";
+import {Surroundings} from "../types/Surroundings";
 
 type Xrange = [X, X];
 type Yrange = [Y, Y];

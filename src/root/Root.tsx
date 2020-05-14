@@ -3,6 +3,7 @@ import World from "../world/World";
 import {useAppDispatch} from "./RootStore";
 import Button from "../button/Button";
 import {randomiseAction, tickAction} from "../world/WorldReducer";
+import "./Root.scss";
 
 const Root: FunctionComponent = () => {
     const dispatch = useAppDispatch();

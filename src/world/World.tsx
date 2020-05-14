@@ -1,7 +1,8 @@
 import React, {CSSProperties, FunctionComponent} from "react";
-import {Coordinate, useWorldSelector, WorldState, X, Y} from "./WorldReducer";
+import {useWorldSelector, WorldState} from "./WorldReducer";
 import CellContainer from "../cell/CellContainer";
 import "./World.scss";
+import {Coordinate, X, Y} from "../types/Coordinate";
 
 type WorldProps = {
 

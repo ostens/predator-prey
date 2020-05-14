@@ -1,18 +1,9 @@
-import {Coordinate, setCellAction} from "../world/WorldReducer";
+import {setCellAction} from "../world/WorldReducer";
 import {RootActions} from "../root/RootReducer";
+import {Coordinate} from "../types/Coordinate";
+import {Surroundings} from "../types/Surroundings";
 
 export type CellState = "ALIVE" | "DEAD";
-
-export type Surroundings<T> = {
-    topLeft: T;
-    top: T;
-    topRight: T;
-    left: T;
-    right: T;
-    bottomLeft: T;
-    bottom: T;
-    bottomRight: T;
-};
 export type CellSurroundings = Partial<Surroundings<CellState>>;
 export type CellConfig = {
     color: string;
@@ -20,9 +11,7 @@ export type CellConfig = {
     getClickAction: (coordinate: Coordinate) => RootActions;
 }
 
-export type AllConfigs = Record<CellState, CellConfig>;
-
-export const cellConfigs: AllConfigs = {
+export const cellConfigs: Record<CellState, CellConfig> = {
     "ALIVE": {
         color: "white",
         getClickAction: (coord: Coordinate) => setCellAction({coord, newCellState: "DEAD"}),
