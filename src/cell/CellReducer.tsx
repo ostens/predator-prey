@@ -4,7 +4,7 @@ import {Surroundings} from "../types/Surroundings";
 import {setCellAction} from "../world/WorldActions";
 
 export type CellState = "ALIVE" | "DEAD";
-export type CellSurroundings = Partial<Surroundings<CellState>>;
+export type CellSurroundings = Surroundings<CellState>;
 export type CellConfig = {
     color: string;
     tick: (surroundings: CellSurroundings) => CellState;

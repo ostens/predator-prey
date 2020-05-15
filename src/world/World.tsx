@@ -17,12 +17,11 @@ const World: FunctionComponent<WorldProps> = (props: WorldProps) => {
   for(let x = xMin; x < xMax; x++) {
     for(let y = yMin; y < yMax; y++) {
       coords.push({x: x as X, y: y as Y});
-    }
-  }
+    }}
 
   const cols = xMax - xMin;
   const style: CSSProperties = {
-    gridTemplateColumns: `repeat(${cols}, 60px)`
+    gridTemplateColumns: `repeat(${cols}, 5px)`
   }
 
   return <div className={"grid"} style={style}>
