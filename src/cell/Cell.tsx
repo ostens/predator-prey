@@ -11,7 +11,7 @@ const Cell: FunctionComponent<CellProps> = ({color, onClick}: CellProps) => {
         height: "5px",
         width: "5px"
     }
-    return <div style={style} onClick={onClick}>
+    return <div style={style} onMouseDown={onClick}>
     </div>
 }
 

@@ -3,7 +3,7 @@ import World from "../world/World";
 import {useAppDispatch} from "./RootStore";
 import Button from "../button/Button";
 import "./Root.scss";
-import {randomiseAction, tickAction} from "../world/WorldActions";
+import {clearAction, randomiseAction, tickAction} from "../world/WorldActions";
 
 const Root: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -12,6 +12,7 @@ const Root: FunctionComponent = () => {
         <World/>
         <Button onClick={() => dispatch(tickAction())}>Tick</Button>
         <Button onClick={() => dispatch(randomiseAction())}>Randomise</Button>
+        <Button onClick={() => dispatch(clearAction())}>Clear</Button>
     </div>;
 }
 

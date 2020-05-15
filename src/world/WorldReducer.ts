@@ -2,9 +2,9 @@ import {cellConfigs} from "../cell/CellReducer";
 import {createReducer} from "@reduxjs/toolkit";
 import {Reducer} from "react";
 import {X, Y} from "../types/Coordinate";
-import {randomiseAction, setCellAction, tickAction, WorldActions} from "./WorldActions";
+import {clearAction, randomiseAction, setCellAction, tickAction, WorldActions} from "./WorldActions";
 import {Cells, offsets, randomCells, setCellInternal, Xrange, Yrange} from "./WorldUtils";
-import {selectSurroundings} from "./WorldSelectors";
+import {selectCellState, selectCellState_Separated, selectSurroundings} from "./WorldSelectors";
 
 export type WorldState = {
     cells: Cells,
@@ -27,6 +27,7 @@ export const worldReducer: Reducer<WorldState | undefined, WorldActions> = creat
         .addCase(tickAction, tick)
         .addCase(randomiseAction, randomise)
         .addCase(setCellAction, setCell)
+        .addCase(clearAction, clear)
 );
 
 function tick(state: WorldState): WorldState {
@@ -59,7 +60,7 @@ function tick(state: WorldState): WorldState {
 
     Object.values(aliveCells).forEach(column =>
         Object.values(column).forEach(cell =>
-                setCellInternal(cells, cell)
+            setCellInternal(cells, cell)
         )
     )
 
@@ -73,8 +74,25 @@ function randomise(state: WorldState): void {
     state.cells = randomCells(state.xRange, state.yRange);
 }
 
+function clear(state: WorldState): void {
+    state.cells = {};
+}
+
 function setCell(state: WorldState, {payload}: ReturnType<typeof setCellAction>): void {
     setCellInternal(state.cells, {coord: payload.coord, state: payload.newCellState});
+    if (payload.newCellState === "ALIVE") {
+        Object.values(offsets).forEach(offset => {
+            const x = (payload.coord.x + offset.x) as X;
+            const y = (payload.coord.y + offset.y) as Y;
+            const currentState = selectCellState_Separated(state, x, y);
+            if (currentState !== "ALIVE") {
+                setCellInternal(state.cells, {
+                    coord: { x, y },
+                    state: "DEAD"
+                })
+            }
+        })
+    }
 }
 
 

@@ -4,7 +4,8 @@ import {CellState} from "../cell/CellReducer";
 
 export const tickAction = createAction("tick");
 export const randomiseAction = createAction("randomise");
+export const clearAction = createAction("clear");
 export const setCellAction = createAction<{ coord: Coordinate, newCellState: CellState }, "setCell">("setCell");
 
-const actions = [tickAction, randomiseAction, setCellAction];
+const actions = [tickAction, randomiseAction, clearAction, setCellAction];
 export type WorldActions = ReturnType<(typeof actions)[number]>;
