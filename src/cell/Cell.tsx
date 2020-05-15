@@ -8,8 +8,8 @@ export type CellProps = {
 const Cell: FunctionComponent<CellProps> = ({color, onClick}: CellProps) => {
     const style: CSSProperties = {
         backgroundColor: color,
-        height: "60px",
-        width: "60px"
+        height: "5px",
+        width: "5px"
     }
     return <div style={style} onClick={onClick}>
     </div>

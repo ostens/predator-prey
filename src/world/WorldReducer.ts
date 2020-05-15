@@ -12,8 +12,8 @@ export type WorldState = {
     yRange: Yrange
 }
 
-const xRangeInit: Xrange = [0 as X, 5 as X]
-const yRangeInit: Yrange = [0 as Y, 5 as Y]
+const xRangeInit: Xrange = [0 as X, 100 as X]
+const yRangeInit: Yrange = [0 as Y, 100 as Y]
 
 const initState: WorldState = {
     cells: randomCells(xRangeInit, yRangeInit),
@@ -44,25 +44,13 @@ function tick(state: WorldState): WorldState {
     return {...state, cells};
 }
 
-function randomise(state: WorldState): WorldState {
+function randomise(state: WorldState): void {
     const cells = randomCells(state.xRange, state.yRange);
-    return {...state, cells};
+    state.cells = cells;
 }
 
-function setCell(state: WorldState, {payload}: ReturnType<typeof setCellAction>): WorldState {
+function setCell(state: WorldState, {payload}: ReturnType<typeof setCellAction>): void {
     const {x, y} = payload.coord;
-    return {
-        ...state,
-        cells: {
-            ...state.cells,
-            [x]: {
-                ...state.cells[x],
-                [y]: {
-                    ...state.cells[x][y],
-                    state: payload.newCellState
-                }
-            }
-        }
-    };
+    state.cells[x][y].state = payload.newCellState;
 }
 
