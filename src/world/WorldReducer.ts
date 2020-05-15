@@ -4,7 +4,7 @@ import {Reducer} from "react";
 import {X, Y} from "../types/Coordinate";
 import {clearAction, randomiseAction, setCellAction, tickAction, WorldActions} from "./WorldActions";
 import {Cells, offsets, randomCells, setCellInternal, Xrange, Yrange} from "./WorldUtils";
-import {selectCellState, selectCellState_Separated, selectSurroundings} from "./WorldSelectors";
+import {selectCellState_Separated, selectSurroundings} from "./WorldSelectors";
 
 export type WorldState = {
     cells: Cells,
