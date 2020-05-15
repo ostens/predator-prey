@@ -19,6 +19,10 @@ export function selectCellState(state: WorldState, {x, y}: Coordinate): CellStat
     return selectCellState_Separated(state, x, y);
 }
 
+export function selectIsPlaying(state: WorldState): boolean {
+    return state.isPlaying;
+}
+
 export function selectCellState_Separated({cells}: WorldState, x: X, y: Y): CellState {
     const column = cells[x];
     if (column === undefined) return "DEAD";
