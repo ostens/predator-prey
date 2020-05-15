@@ -21,7 +21,7 @@ const World: FunctionComponent<WorldProps> = (props: WorldProps) => {
 
   const cols = xMax - xMin;
   const style: CSSProperties = {
-    gridTemplateColumns: `repeat(${cols}, 5px)`
+    gridTemplateColumns: `repeat(${cols}, ${600/cols}px)`
   }
 
   return <div className={"grid"} style={style}>

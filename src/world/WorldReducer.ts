@@ -13,9 +13,8 @@ export type WorldState = {
     isPlaying: boolean
 }
 
-
-const xRangeInit: Xrange = [0 as X, 100 as X]
-const yRangeInit: Yrange = [0 as Y, 100 as Y]
+const xRangeInit: Xrange = [0 as X, 20 as X]
+const yRangeInit: Yrange = [0 as Y, 20 as Y]
 
 const initState: WorldState = {
     cells: randomCells(xRangeInit, yRangeInit),
