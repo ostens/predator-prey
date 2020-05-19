@@ -2,9 +2,10 @@ import { delay } from "redux-saga/effects";
 
 import { playAction, tickAction } from "./WorldActions";
 import {getTickDelay, getIsPlaying, fromWorld} from "./WorldSelectors";
-import {sagaPut, sagaSelect, sagaTakeEvery} from "../root/RootSaga";
+import {SagaBuilder, sagaPut, sagaSelect} from "../utils/Sagas";
+import { SagaIterator } from "redux-saga";
 
-export function* play() {
+function* play(): SagaIterator {
   while (yield sagaSelect(fromWorld(getIsPlaying))) {
     yield sagaPut(tickAction());
     yield delay(yield sagaSelect(fromWorld(getTickDelay)));
@@ -12,5 +13,8 @@ export function* play() {
 }
 
 export default function* worldSaga() {
-  yield sagaTakeEvery<typeof playAction>(playAction, play);
+  const sagaBuilder = new SagaBuilder()
+      .addCase(playAction, play)
+      .build();
+  yield sagaBuilder;
 }

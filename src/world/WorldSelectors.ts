@@ -1,6 +1,6 @@
 import {RootState} from "../root/RootReducer";
 import {WorldState} from "./WorldReducer";
-import {Coordinate, X, Y} from "../types/Coordinate";
+import {Coordinate, X, Y} from "../utils/Coordinate";
 import {CellState, CellSurroundings} from "../cell/CellReducer";
 import {Cell, offsets} from "./WorldUtils";
 

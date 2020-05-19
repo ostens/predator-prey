@@ -1,5 +1,5 @@
 import {createAction} from "@reduxjs/toolkit";
-import {Coordinate} from "../types/Coordinate";
+import {Coordinate} from "../utils/Coordinate";
 import {CellState} from "../cell/CellReducer";
 
 export const tickAction = createAction("tick");

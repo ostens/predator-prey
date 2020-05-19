@@ -2,7 +2,7 @@ import React from "react";
 import {cellConfigs} from "./CellReducer";
 import Cell from "./Cell";
 import {useAppDispatch} from "../root/RootStore";
-import {Coordinate} from "../types/Coordinate";
+import {Coordinate} from "../utils/Coordinate";
 import {useSelector} from "react-redux";
 import {fromWorldWithArgs, getCellState} from "../world/WorldSelectors";
 

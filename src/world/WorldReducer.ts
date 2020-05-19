@@ -1,5 +1,5 @@
 import {cellConfigs, CellState} from "../cell/CellReducer";
-import {Coordinate, X, Y} from "../types/Coordinate";
+import {Coordinate, X, Y} from "../utils/Coordinate";
 import {
     clearAction,
     randomiseAction,
@@ -11,7 +11,7 @@ import {
 } from "./WorldActions";
 import {Cells, offsets, randomCells, setCellInternal, Xrange, Yrange, gliderGunCells} from "./WorldUtils";
 import {getCellStateXY, getSuroundings} from "./WorldSelectors";
-import {PayloadType, ReducerBuilder} from "../types/Reducers";
+import {PayloadType, ReducerBuilder} from "../utils/Reducers";
 
 export type WorldState = {
     cells: Cells,

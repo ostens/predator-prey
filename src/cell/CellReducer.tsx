@@ -1,5 +1,5 @@
-import {Coordinate} from "../types/Coordinate";
-import {Surroundings} from "../types/Surroundings";
+import {Coordinate} from "../utils/Coordinate";
+import {Surroundings} from "../utils/Surroundings";
 import {setCellAction} from "../world/WorldActions";
 import {RootActions} from "../root/RootStore";
 

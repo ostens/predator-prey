@@ -1,24 +1,24 @@
-import {configureStore, getDefaultMiddleware} from "@reduxjs/toolkit";
-import {rootReducer, RootState} from "./RootReducer";
+import {configureStore, getDefaultMiddleware, Action} from "@reduxjs/toolkit";
+import {rootReducer, RootReducerActions, RootReducerActionTypes, RootState} from "./RootReducer";
 import createSagaMiddleware from "redux-saga";
-import rootSaga from "./RootSaga";
+import rootSaga, {RootSagaActionTypes} from "./RootSaga";
 import { useDispatch } from "react-redux";
-import {ReducerActions} from "../types/Reducers";
-import {worldReducer} from "../world/WorldReducer";
+import {Dispatch} from "react";
 
-export type RootActions = ReducerActions<typeof worldReducer>;
+type RootActionTypes = RootReducerActionTypes | RootSagaActionTypes;
+export type RootActions = Action<RootActionTypes>;
 
 const sagaMiddleware = createSagaMiddleware();
 
-// TODO: type sagas
-export const rootStore = configureStore<RootState, RootActions, any>({
+export const rootStore = configureStore<RootState, RootReducerActions, any>({
   reducer: rootReducer,
   middleware: [
     ...getDefaultMiddleware<RootState>(),
     sagaMiddleware,
   ] as const
 });
-export type AppDispatch = typeof rootStore.dispatch;
+
+export type AppDispatch = Dispatch<RootActions>;
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 
 sagaMiddleware.run(rootSaga);

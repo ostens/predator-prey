@@ -1,7 +1,7 @@
 import React, {CSSProperties, FunctionComponent} from "react";
 import CellContainer from "../cell/CellContainer";
 import "./World.scss";
-import {Coordinate, X, Y} from "../types/Coordinate";
+import {Coordinate, X, Y} from "../utils/Coordinate";
 import {fromWorld, getXRange, getYRange} from "./WorldSelectors";
 import {useSelector} from "react-redux";
 

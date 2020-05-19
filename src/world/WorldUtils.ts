@@ -1,6 +1,6 @@
-import {Coordinate, X, Y} from "../types/Coordinate";
+import {Coordinate, X, Y} from "../utils/Coordinate";
 import {CellState} from "../cell/CellReducer";
-import {Surroundings} from "../types/Surroundings";
+import {Surroundings} from "../utils/Surroundings";
 
 export type Xrange = [X, X];
 export type Yrange = [Y, Y];
