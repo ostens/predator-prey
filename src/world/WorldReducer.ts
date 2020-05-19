@@ -10,7 +10,8 @@ export type WorldState = {
     cells: Cells,
     xRange: Xrange,
     yRange: Yrange,
-    isPlaying: boolean
+    isPlaying: boolean,
+    delay: number
 }
 
 const xRangeInit: Xrange = [0 as X, 20 as X]
@@ -20,7 +21,8 @@ const initState: WorldState = {
     cells: randomCells(xRangeInit, yRangeInit),
     xRange: xRangeInit,
     yRange: yRangeInit,
-    isPlaying: false
+    isPlaying: false,
+    delay: 100
 };
 
 

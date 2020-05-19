@@ -9,11 +9,17 @@ const getIsPlaying = (state: RootState): boolean => {
   return isPlaying;
 }
 
+const getDelay = (state: RootState): number => {
+  const delay = state.world?.delay as number;
+  return delay;
+}
+
 export function* play(): SagaIterator {
   let playing: boolean = yield select(getIsPlaying);
+  let delayTime: number = yield select(getDelay);
   while (playing) {
     yield put(tickAction());
-    yield delay(100);
+    yield delay(delayTime);
     playing = yield select(getIsPlaying);
   }
 }
