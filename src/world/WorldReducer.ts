@@ -2,8 +2,8 @@ import {cellConfigs} from "../cell/CellReducer";
 import {createReducer} from "@reduxjs/toolkit";
 import {Reducer} from "react";
 import {X, Y} from "../types/Coordinate";
-import {clearAction, randomiseAction, setCellAction, tickAction, WorldActions, playAction, pauseAction} from "./WorldActions";
-import {Cells, offsets, randomCells, setCellInternal, Xrange, Yrange} from "./WorldUtils";
+import {clearAction, randomiseAction, setCellAction, tickAction, WorldActions, playAction, pauseAction, gliderGunAction} from "./WorldActions";
+import {Cells, offsets, randomCells, setCellInternal, Xrange, Yrange, gliderGunCells} from "./WorldUtils";
 import {selectCellState_Separated, selectSurroundings} from "./WorldSelectors";
 
 export type WorldState = {
@@ -14,15 +14,15 @@ export type WorldState = {
     delay: number
 }
 
-const xRangeInit: Xrange = [0 as X, 20 as X]
-const yRangeInit: Yrange = [0 as Y, 20 as Y]
+const xRangeInit: Xrange = [0 as X, 40 as X]
+const yRangeInit: Yrange = [0 as Y, 40 as Y]
 
 const initState: WorldState = {
     cells: randomCells(xRangeInit, yRangeInit),
     xRange: xRangeInit,
     yRange: yRangeInit,
     isPlaying: false,
-    delay: 100
+    delay: 200
 };
 
 
@@ -30,6 +30,7 @@ export const worldReducer: Reducer<WorldState | undefined, WorldActions> = creat
     builder
         .addCase(tickAction, tick)
         .addCase(randomiseAction, randomise)
+        .addCase(gliderGunAction, gliderGun)
         .addCase(setCellAction, setCell)
         .addCase(playAction, play)
         .addCase(pauseAction, pause)
@@ -78,6 +79,10 @@ function tick(state: WorldState): WorldState {
 
 function randomise(state: WorldState): void {
     state.cells = randomCells(state.xRange, state.yRange);
+}
+
+function gliderGun(state: WorldState): void {
+    state.cells = gliderGunCells(state.xRange, state.yRange);
 }
 
 function play(state: WorldState): WorldState {

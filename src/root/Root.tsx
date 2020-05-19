@@ -3,7 +3,7 @@ import World from "../world/World";
 import { useAppDispatch } from "./RootStore";
 import Button from "../button/Button";
 import "./Root.scss";
-import { randomiseAction, tickAction, clearAction, pauseAction, playAction } from "../world/WorldActions";
+import { randomiseAction, gliderGunAction, tickAction, clearAction, pauseAction, playAction } from "../world/WorldActions";
 import { useWorldSelector } from "../world/WorldSelectors";
 import { WorldState } from "../world/WorldReducer"
 
@@ -22,6 +22,7 @@ const Root: FunctionComponent = () => {
         <Button onClick={() => dispatch(randomiseAction())}>Randomise</Button>
         <Button onClick={handleClick}>{isPlaying ? "Pause" : "Start"}</Button>
         <Button onClick={() => dispatch(clearAction())}>Clear</Button>
+        <Button onClick={() => dispatch(gliderGunAction())}>Glider gun</Button>
     </div>;
 }
 
