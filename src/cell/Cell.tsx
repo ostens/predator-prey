@@ -1,6 +1,6 @@
 import React, { CSSProperties, FunctionComponent } from "react";
-import { useWorldSelector } from "../world/WorldSelectors";
-import { WorldState } from "../world/WorldReducer";
+import {fromWorld, getXRange, getYRange} from "../world/WorldSelectors";
+import {useSelector} from "react-redux";
 
 export type CellProps = {
     color: string;
@@ -8,8 +8,8 @@ export type CellProps = {
 }
 
 const Cell: FunctionComponent<CellProps> = ({ color, onClick }: CellProps) => {
-    const [xMin, xMax] = useWorldSelector((state: WorldState) => state.xRange);
-    const [yMin, yMax] = useWorldSelector((state: WorldState) => state.yRange);
+    const [xMin, xMax] = useSelector(fromWorld(getXRange));
+    const [yMin, yMax] = useSelector(fromWorld(getYRange));
 
     const xRange = xMax - xMin;
     const yRange = yMax - yMin;

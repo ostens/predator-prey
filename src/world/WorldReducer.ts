@@ -4,14 +4,14 @@ import {Reducer} from "react";
 import {X, Y} from "../types/Coordinate";
 import {clearAction, randomiseAction, setCellAction, tickAction, WorldActions, playAction, pauseAction, gliderGunAction} from "./WorldActions";
 import {Cells, offsets, randomCells, setCellInternal, Xrange, Yrange, gliderGunCells} from "./WorldUtils";
-import {selectCellState_Separated, selectSurroundings} from "./WorldSelectors";
+import {getCellStateXY, getSuroundings} from "./WorldSelectors";
 
 export type WorldState = {
     cells: Cells,
     xRange: Xrange,
     yRange: Yrange,
     isPlaying: boolean,
-    delay: number
+    tickDelay: number
 }
 
 const xRangeInit: Xrange = [0 as X, 40 as X]
@@ -22,9 +22,8 @@ const initState: WorldState = {
     xRange: xRangeInit,
     yRange: yRangeInit,
     isPlaying: false,
-    delay: 200
+    tickDelay: 200
 };
-
 
 export const worldReducer: Reducer<WorldState | undefined, WorldActions> = createReducer(initState, builder =>
     builder
@@ -42,7 +41,7 @@ function tick(state: WorldState): WorldState {
     Object.values(state.cells).forEach(column => {
         Object.values(column).forEach(cell => {
             const {tick} = cellConfigs[cell.state];
-            const surroundings = selectSurroundings(state, cell);
+            const surroundings = getSuroundings(state, cell);
             const newState = tick(surroundings);
             if (newState === "ALIVE") {
                 setCellInternal(aliveCells, {...cell, state: newState});
@@ -103,7 +102,7 @@ function setCell(state: WorldState, {payload}: ReturnType<typeof setCellAction>)
         Object.values(offsets).forEach(offset => {
             const x = (payload.coord.x + offset.x) as X;
             const y = (payload.coord.y + offset.y) as Y;
-            const currentState = selectCellState_Separated(state, x, y);
+            const currentState = getCellStateXY(state, x, y);
             if (currentState !== "ALIVE") {
                 setCellInternal(state.cells, {
                     coord: { x, y },

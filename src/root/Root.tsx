@@ -4,13 +4,14 @@ import { useAppDispatch } from "./RootStore";
 import Button from "../button/Button";
 import "./Root.scss";
 import { randomiseAction, gliderGunAction, tickAction, clearAction, pauseAction, playAction } from "../world/WorldActions";
-import { useWorldSelector } from "../world/WorldSelectors";
 import { WorldState } from "../world/WorldReducer"
+import {fromWorld} from "../world/WorldSelectors";
+import {useSelector} from "react-redux";
 
 const Root: FunctionComponent = () => {
     const dispatch = useAppDispatch();
 
-    const isPlaying = useWorldSelector((state: WorldState) => state.isPlaying);
+    const isPlaying = useSelector(fromWorld((state: WorldState) => state.isPlaying));
 
     const handleClick = () => {
         return isPlaying ? dispatch(pauseAction()) : dispatch(playAction())
