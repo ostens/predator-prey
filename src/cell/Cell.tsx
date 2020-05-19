@@ -16,8 +16,8 @@ const Cell: FunctionComponent<CellProps> = ({ color, onClick }: CellProps) => {
 
     const style: CSSProperties = {
         backgroundColor: color,
-        height: `${600/yRange}px`,
-        width: `${600/xRange}px`
+        height: `${500/yRange}px`,
+        width: `${500/xRange}px`
     }
     return <div style={style} onMouseDown={onClick}>
     </div>

@@ -13,7 +13,7 @@ export function* play(): SagaIterator {
   let playing: boolean = yield select(getIsPlaying);
   while (playing) {
     yield put(tickAction());
-    yield delay(50);
+    yield delay(100);
     playing = yield select(getIsPlaying);
   }
 }
