@@ -1,18 +1,16 @@
-import { all, takeEvery, select, put, delay } from "redux-saga/effects";
-import { SagaIterator } from '@redux-saga/core';
+import { delay } from "redux-saga/effects";
 
 import { playAction, tickAction } from "./WorldActions";
 import {getTickDelay, getIsPlaying, fromWorld} from "./WorldSelectors";
+import {sagaPut, sagaSelect, sagaTakeEvery} from "../root/RootSaga";
 
-export function* play(): SagaIterator {
-  while (yield select(fromWorld(getIsPlaying))) {
-    yield put(tickAction());
-    yield delay(yield select(fromWorld(getTickDelay)));
+export function* play() {
+  while (yield sagaSelect(fromWorld(getIsPlaying))) {
+    yield sagaPut(tickAction());
+    yield delay(yield sagaSelect(fromWorld(getTickDelay)));
   }
 }
 
-export default function* rootSaga(): SagaIterator {
-  yield all([
-    yield takeEvery(playAction, play),
-  ]);
+export default function* worldSaga() {
+  yield sagaTakeEvery<typeof playAction>(playAction, play);
 }

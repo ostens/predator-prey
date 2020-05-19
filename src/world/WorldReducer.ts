@@ -1,10 +1,17 @@
-import {cellConfigs} from "../cell/CellReducer";
-import {createReducer} from "@reduxjs/toolkit";
-import {Reducer} from "react";
-import {X, Y} from "../types/Coordinate";
-import {clearAction, randomiseAction, setCellAction, tickAction, WorldActions, playAction, pauseAction, gliderGunAction} from "./WorldActions";
+import {cellConfigs, CellState} from "../cell/CellReducer";
+import {Coordinate, X, Y} from "../types/Coordinate";
+import {
+    clearAction,
+    randomiseAction,
+    setCellAction,
+    tickAction,
+    playAction,
+    pauseAction,
+    gliderGunAction
+} from "./WorldActions";
 import {Cells, offsets, randomCells, setCellInternal, Xrange, Yrange, gliderGunCells} from "./WorldUtils";
 import {getCellStateXY, getSuroundings} from "./WorldSelectors";
+import {PayloadType, ReducerBuilder} from "../types/Reducers";
 
 export type WorldState = {
     cells: Cells,
@@ -25,16 +32,15 @@ const initState: WorldState = {
     tickDelay: 200
 };
 
-export const worldReducer: Reducer<WorldState | undefined, WorldActions> = createReducer(initState, builder =>
-    builder
-        .addCase(tickAction, tick)
-        .addCase(randomiseAction, randomise)
-        .addCase(gliderGunAction, gliderGun)
-        .addCase(setCellAction, setCell)
-        .addCase(playAction, play)
-        .addCase(pauseAction, pause)
-        .addCase(clearAction, clear)
-);
+export const worldReducer = new ReducerBuilder(initState)
+    .addCase(tickAction, tick)
+    .addCase(randomiseAction, randomise)
+    .addCase(gliderGunAction, gliderGun)
+    .addCase<"setCell", { coord: Coordinate, newCellState: CellState }>(setCellAction, setCell)
+    .addCase(playAction, play)
+    .addCase(pauseAction, pause)
+    .addCase(clearAction, clear)
+    .build();
 
 function tick(state: WorldState): WorldState {
     const aliveCells: Cells = {};
@@ -76,27 +82,32 @@ function tick(state: WorldState): WorldState {
     return {...state, cells};
 }
 
-function randomise(state: WorldState): void {
+function randomise(state: WorldState): WorldState {
     state.cells = randomCells(state.xRange, state.yRange);
+    return state;
 }
 
-function gliderGun(state: WorldState): void {
+function gliderGun(state: WorldState): WorldState {
     state.cells = gliderGunCells(state.xRange, state.yRange);
+    return state;
 }
 
 function play(state: WorldState): WorldState {
-    return {...state, isPlaying: true}
+    state.isPlaying = true;
+    return state;
 }
 
 function pause(state: WorldState): WorldState {
-    return {...state, isPlaying: false}
+    state.isPlaying = false;
+    return state;
 }
 
-function clear(state: WorldState): void {
+function clear(state: WorldState): WorldState {
     state.cells = {};
+    return state;
 }
 
-function setCell(state: WorldState, {payload}: ReturnType<typeof setCellAction>): void {
+function setCell(state: WorldState, payload: PayloadType<typeof setCellAction>): WorldState {
     setCellInternal(state.cells, {coord: payload.coord, state: payload.newCellState});
     if (payload.newCellState === "ALIVE") {
         Object.values(offsets).forEach(offset => {
@@ -105,12 +116,13 @@ function setCell(state: WorldState, {payload}: ReturnType<typeof setCellAction>)
             const currentState = getCellStateXY(state, x, y);
             if (currentState !== "ALIVE") {
                 setCellInternal(state.cells, {
-                    coord: { x, y },
+                    coord: {x, y},
                     state: "DEAD"
                 })
             }
         })
     }
+    return state;
 }
 
 
