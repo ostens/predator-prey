@@ -29,7 +29,7 @@ const initState: WorldState = {
     xRange: xRangeInit,
     yRange: yRangeInit,
     isPlaying: false,
-    tickDelay: 200
+    tickDelay: 0
 };
 
 export const worldReducer = new ReducerBuilder(initState)
@@ -75,9 +75,6 @@ function tick(state: WorldState): WorldState {
             setCellInternal(cells, cell)
         )
     )
-
-    const cellCount = Object.values(cells).reduce((acc, column) => acc + Object.keys(column).length, 0)
-    console.log(cellCount, "relevant cells");
 
     return {...state, cells};
 }

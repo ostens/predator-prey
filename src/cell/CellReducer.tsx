@@ -13,7 +13,7 @@ export type CellConfig = {
 
 export const cellConfigs: Record<CellState, CellConfig> = {
     "ALIVE": {
-        color: "white",
+        color: "black",
         getClickAction: (coord: Coordinate) => setCellAction({coord, newCellState: "DEAD"}),
         tick: (s: CellSurroundings) => {
             const aliveCount = Object.values(s).filter(state => state === "ALIVE").length;
@@ -27,7 +27,7 @@ export const cellConfigs: Record<CellState, CellConfig> = {
         }
     },
     "DEAD": {
-        color: "black",
+        color: "white",
         getClickAction: (coord: Coordinate) => setCellAction({coord, newCellState: "ALIVE"}),
         tick: (s: CellSurroundings) => {
             const aliveCount = Object.values(s).filter(state => state === "ALIVE").length;

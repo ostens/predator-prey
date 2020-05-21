@@ -38,3 +38,9 @@ export const getIsPlaying = (state: WorldState) => state.isPlaying
 export const getTickDelay = (state: WorldState) => state.tickDelay
 export const getXRange = (state: WorldState) => state.xRange;
 export const getYRange = (state: WorldState) => state.yRange;
+export const getCells = (state: WorldState) => state.cells;
+export const getCoords = (state: WorldState) => {
+    const cells = getCells(state);
+    const coords = Object.values(cells).flatMap(row => Object.values(row).map(cell => cell.coord));
+    return coords;
+}
